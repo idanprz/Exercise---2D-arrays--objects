@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+
+<head>
+    <title>Exercise - 2D arrays and objects</title>
+</head>
+
+<body>
+    <form action="/action_page.php">
+        <label for="elem">Number (between 0 and 100):</label>
+        <input type="number" id="elem" name="elem" min="0" max="100">
+        <input type="submit">
+    </form>
+    <br/>
+    <button onclick="send_details()">SEND DETAILS</button>
+    <br/>
+    <br/>
+
+    <script>
+        // 1
+        const COLS = 10
+        const ROWS = 10
+
+        const arr = getRandomizedArray(10, 10)
+
+        print(arr)
+        breakLine()
+
+        function getRandomizedArray(cols, rows) {
+            const arr = new Array(0)
+
+            for (let i = 0; i < rows; i++) {
+                arr.push([...Array(cols)].map(_ => Math.floor(Math.random() * 101)))
+            }
+
+            return arr
+        }
+
+        // utils
+        function print(param) {
+            document.write(param)
+        }
+
+        function breakLine() {
+            document.write("<br/>")
+        }
+    </script>
+</body>
+
+</html>
