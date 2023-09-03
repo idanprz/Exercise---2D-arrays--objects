@@ -6,46 +6,80 @@
 
 <body>
     <form action="/action_page.php">
-        <label for="elem">Number (between 0 and 100):</label>
-        <input type="number" id="elem" name="elem" min="0" max="100">
-        <input type="submit">
+        <label for="elem">Enter a number (between 0 and 100):</label>
+        <input type="number" id="elem" name="elem" min="0" max="100" value="0">
     </form>
-    <br/>
-    <button onclick="getDetails()">SEND DETAILS</button>
-    <br/>
-    <br/>
+    <br />
+    <button onclick="getUserNumber(arr)">Submit</button>
+    <br /><br />
+    <hr>
+    <h3>Matrix:</h3>
+    <p id="matrix"></p>
+    <hr>
+    <h3>Coordinates:</h3>
+    <p id="coords"></p>
 
     <script>
         // 1
         const COLS = 10
         const ROWS = 10
+        const MATRIX_ID = "matrix"
+        const COORDS_ID = "coords"
+        const arr = getRandomizedArray(ROWS, COLS)
 
-        const arr = getRandomizedArray(10, 10)
+        printArray(arr, MATRIX_ID)
 
-        print(arr)
-        breakLine()
+        // ############################################################
 
-        function getDetails() {
-            const num = document.getElementById('elem').value
+        function getUserNumber() {
+            const userVal = document.getElementById('elem').value
+            const coordsArr = find2D(arr, userVal)
+
+            printArray(coordsArr, COORDS_ID)
         }
 
-        function getRandomizedArray(cols, rows) {
+        function getRandomizedArray(rows, cols) {
             const arr = new Array(0)
 
             for (let i = 0; i < rows; i++) {
-                arr.push([...Array(cols)].map(_ => Math.floor(Math.random() * 101)))
+                arr.push([...new Array(cols)]
+                .map(_ => Math.floor(Math.random() * 101)))
             }
 
             return arr
         }
 
-        // utils
-        function print(param) {
-            document.write(param)
+        // returns the coordinates of val in an array arr
+        // return format: [[row1, col1], ... ,[rowN, colN]]
+        function find2D(arr, val) {
+            const ret = new Array(0)
+
+            for (let currRow = 0; currRow < arr.length; currRow++) {
+                for (let currCol = 0; currCol < arr[0].length; currCol++) {
+                    if (val == arr[currRow][currCol]) {
+                        ret.push([currRow, currCol])
+                    }
+                }
+            }
+
+            return ret
         }
 
-        function breakLine() {
-            document.write("<br/>")
+        function printArray(arr, docID) {
+            let toPrint = ""
+
+            for (let currRow = 0; currRow < arr.length; currRow++) {
+                toPrint += `${currRow}|&nbsp&nbsp&nbsp`
+
+                for (let currCol = 0; currCol < arr[0].length; currCol++) {
+                    let num = arr[currRow][currCol]
+                    toPrint += `${num}, `
+                }
+
+                toPrint += "<br/>"
+
+                document.getElementById(docID).innerHTML = toPrint
+            }
         }
     </script>
 </body>
