@@ -43,7 +43,7 @@
 
             for (let i = 0; i < rows; i++) {
                 arr.push([...new Array(cols)]
-                .map(_ => Math.floor(Math.random() * 101)))
+                .map(_ => getRandNumber(0, 100)))
             }
 
             return arr
@@ -55,7 +55,7 @@
             const ret = new Array(0)
 
             for (let currRow = 0; currRow < arr.length; currRow++) {
-                for (let currCol = 0; currCol < arr[0].length; currCol++) {
+                for (let currCol = 0; currCol < arr[currRow].length; currCol++) {
                     if (val == arr[currRow][currCol]) {
                         ret.push([currRow, currCol])
                     }
@@ -71,7 +71,7 @@
             for (let currRow = 0; currRow < arr.length; currRow++) {
                 toPrint += `${currRow}|&nbsp&nbsp&nbsp`
 
-                for (let currCol = 0; currCol < arr[0].length; currCol++) {
+                for (let currCol = 0; currCol < arr[currRow].length; currCol++) {
                     let num = arr[currRow][currCol]
                     toPrint += `${num}, `
                 }
@@ -80,6 +80,10 @@
 
                 document.getElementById(docID).innerHTML = toPrint
             }
+        }
+
+        function getRandNumber(min, max) {
+            return Math.floor(Math.random() * (max + 1)) + min
         }
     </script>
 </body>
