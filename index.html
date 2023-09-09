@@ -10,14 +10,11 @@
         <input type="number" id="elem" name="elem" min="0" max="100" value="0">
     </form>
     <br />
-    <button onclick="getUserNumber(arr)">Submit</button>
+    <button onclick="initPage(MATRIX_ID, COORDS_ID); printArray(arr, MATRIX_ID); 
+    this.onclick=null;">Display matrix</button>
     <br /><br />
-    <hr>
-    <h3>Matrix:</h3>
-    <p id="matrix"></p>
-    <hr>
-    <h3>Coordinates:</h3>
-    <p id="coords"></p>
+    <button onclick="getUserNumber(arr)">Find coordinates</button>
+    <br /><br />
 
     <script>
         // 1
@@ -25,33 +22,74 @@
         const ROWS = 10
         const MATRIX_ID = "matrix"
         const COORDS_ID = "coords"
+
         const arr = getRandomizedArray(ROWS, COLS)
 
-        printArray(arr, MATRIX_ID)
+        // initPage(MATRIX_ID, COORDS_ID)
+
+        // printArray(arr, MATRIX_ID)
 
         // ############################################################
 
+        function initPage(matrixID, coordsID) {
+            const mat_h3 = document.createElement("h3")
+            const coords_h3 = document.createElement("h3")
+            const matrix = document.createElement("p")
+            const coords = document.createElement("p")
+
+            mat_h3.innerText = "Matrix:"
+            coords_h3.innerText = "Coordinates:"
+            matrix.id = matrixID
+            coords.id = coordsID
+
+            document.body.appendChild(document.createElement("hr"))
+            document.body.appendChild(mat_h3)
+            document.body.appendChild(matrix)
+            document.body.appendChild(document.createElement("hr"))
+            document.body.appendChild(coords_h3)
+            document.body.appendChild(coords)
+            document.body.appendChild(document.createElement("hr"))
+        }
+
         function getUserNumber() {
             const userVal = document.getElementById('elem').value
-            const coordsArr = find2D(arr, userVal)
+            const coordsArr = getCoords(arr, userVal)
 
             printArray(coordsArr, COORDS_ID)
         }
 
         function getRandomizedArray(rows, cols) {
-            const arr = new Array(0)
+            const mat = new Array(0)
 
             for (let i = 0; i < rows; i++) {
-                arr.push([...new Array(cols)]
-                .map(_ => getRandNumber(0, 100)))
+                mat.push([...new Array(cols)].forEach(element => getUniqueRandNumber(mat, 0, 100)))
+                    // .map(_ => getRandNumber(0, 100)))
             }
+
+            return mat
+        }
+
+        // returns an array of unique integers from min to max. 
+        // undefined behavior if min > max
+        function getUniqueIntegersArray(min, max) {
+            const len = max - min + 1
+            const arr = new Array(len)
+
+            let num = min
+
+            do {
+                arr.push(num)
+
+                num = getRandNumber(min + 1, max)
+            } 
+            while (arr.len < len && true == arr.includes(num))
 
             return arr
         }
 
         // returns the coordinates of val in an array arr
         // return format: [[row1, col1], ... ,[rowN, colN]]
-        function find2D(arr, val) {
+        function getCoords(arr, val) {
             const ret = new Array(0)
 
             for (let currRow = 0; currRow < arr.length; currRow++) {
