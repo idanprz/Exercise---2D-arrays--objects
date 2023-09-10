@@ -64,17 +64,9 @@
             const randArr = getUniqueIntegersArray(0, 100)
 
             for (let i = 0; i < rows; i++) {
-                // const arr = [...new Array(cols)].map(element => randArr.pop())
-                const arr = [...new Array(cols)]
+                const arr = [...new Array(cols)].map(element => randArr.pop())
 
-                for (let j = 0; j < cols; j++) {
-                    arr[j] = randArr[i * 10 + j]
-
-                }
-                console.log(`${arr}`)
                 mat.push(arr)
-                // console.log(`${mat}`)
-                // .map(_ => getRandNumber(0, 100)))
             }
 
             return mat
