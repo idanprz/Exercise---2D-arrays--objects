@@ -24,6 +24,7 @@
         const COORDS_ID = "coords"
 
         const arr = getRandomizedArray(ROWS, COLS)
+        console.log(`${arr}`)
 
         // initPage(MATRIX_ID, COORDS_ID)
 
@@ -60,10 +61,20 @@
 
         function getRandomizedArray(rows, cols) {
             const mat = new Array(0)
+            const randArr = getUniqueIntegersArray(0, 100)
 
             for (let i = 0; i < rows; i++) {
-                mat.push([...new Array(cols)].forEach(element => getUniqueRandNumber(mat, 0, 100)))
-                    // .map(_ => getRandNumber(0, 100)))
+                // const arr = [...new Array(cols)].map(element => randArr.pop())
+                const arr = [...new Array(cols)]
+
+                for (let j = 0; j < cols; j++) {
+                    arr[j] = randArr[i * 10 + j]
+
+                }
+                console.log(`${arr}`)
+                mat.push(arr)
+                // console.log(`${mat}`)
+                // .map(_ => getRandNumber(0, 100)))
             }
 
             return mat
@@ -72,17 +83,23 @@
         // returns an array of unique integers from min to max. 
         // undefined behavior if min > max
         function getUniqueIntegersArray(min, max) {
-            const len = max - min + 1
-            const arr = new Array(len)
+            const maxLength = max - min + 1
+            var arr = new Array(0)
 
-            let num = min
+            let num = 0
 
             do {
-                arr.push(num)
+                num = getRandNumber(min, max)
 
-                num = getRandNumber(min + 1, max)
-            } 
-            while (arr.len < len && true == arr.includes(num))
+                if (!arr.includes(num)) {
+                    arr.push(num)
+                }
+            }
+            while (arr.length < maxLength)
+
+            // console.log(`${arr}`)
+            arr = arr.filter((v, i, a) => a.indexOf(v) == i)
+            console.log(`${arr.length}`)
 
             return arr
         }
@@ -110,8 +127,7 @@
                 toPrint += `${currRow}|&nbsp&nbsp&nbsp`
 
                 for (let currCol = 0; currCol < arr[currRow].length; currCol++) {
-                    let num = arr[currRow][currCol]
-                    toPrint += `${num}, `
+                    toPrint += `${arr[currRow][currCol]}, `
                 }
 
                 toPrint += "<br/>"
