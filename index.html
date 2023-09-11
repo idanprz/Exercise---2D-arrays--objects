@@ -1,36 +1,30 @@
 <!DOCTYPE html>
 
 <head>
-    <title>Exercise - 2D arrays and objects</title>
+    <title>Exercise - 2D arrays and objects, part 1</title>
 </head>
 
 <body>
-    <form action="/action_page.php">
-        <label for="elem">Enter a number (between 0 and 100):</label>
-        <input type="number" id="elem" name="elem" min="0" max="100" value="0">
-    </form>
-    <br />
+    <label for="elem">Enter a number between 0 and 100:</label>
+    <input type="number" id="elem" oninput="findUserNumberPosition(arr)" min="0" max="100">
+    <br /><br />
     <button onclick="initPage(MATRIX_ID, COORDS_ID); printArray(arr, MATRIX_ID); 
     this.onclick=null;">Display matrix</button>
     <br /><br />
-    <button onclick="getUserNumber(arr)">Find coordinates</button>
+    <button onclick="findUserNumberPosition(arr)">Find coordinates</button>
     <br /><br />
 
     <script>
-        // 1
         const COLS = 10
         const ROWS = 10
+        const MIN_NUM = 0
+        const MAX_NUM = 100
         const MATRIX_ID = "matrix"
         const COORDS_ID = "coords"
 
-        const arr = getRandomizedArray(ROWS, COLS)
-        console.log(`${arr}`)
+        const arr = getRandomizedMatrix(ROWS, COLS)
 
-        // initPage(MATRIX_ID, COORDS_ID)
-
-        // printArray(arr, MATRIX_ID)
-
-        // ############################################################
+        // ####################################################################
 
         function initPage(matrixID, coordsID) {
             const mat_h3 = document.createElement("h3")
@@ -52,16 +46,18 @@
             document.body.appendChild(document.createElement("hr"))
         }
 
-        function getUserNumber() {
+        function findUserNumberPosition() {
             const userVal = document.getElementById('elem').value
+
             const coordsArr = getCoords(arr, userVal)
 
             printArray(coordsArr, COORDS_ID)
         }
 
-        function getRandomizedArray(rows, cols) {
+        // returns a matrix with random values 
+        function getRandomizedMatrix(rows, cols) {
             const mat = new Array(0)
-            const randArr = getUniqueIntegersArray(0, 100)
+            const randArr = getUniqueIntegersArray(MIN_NUM, MAX_NUM)
 
             for (let i = 0; i < rows; i++) {
                 const arr = [...new Array(cols)].map(element => randArr.pop())
@@ -112,7 +108,7 @@
             return ret
         }
 
-        function printArray(arr, docID) {
+        function printArray(arr, tagID) {
             let toPrint = ""
 
             for (let currRow = 0; currRow < arr.length; currRow++) {
@@ -124,7 +120,7 @@
 
                 toPrint += "<br/>"
 
-                document.getElementById(docID).innerHTML = toPrint
+                document.getElementById(tagID).innerHTML = toPrint
             }
         }
 
