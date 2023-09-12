@@ -1,18 +1,82 @@
 <!DOCTYPE html>
+
 <head>
-    <title>Excercise - do while</title>
+    <title>Excercise - objects</title>
 </head>
+
 <body>
+    <input type="number" id="filterYear" min="0" max="3000" onclick="filterLaterYears()">
+    <div>
+        <table>
+            <tr>
+                <th>name</th>
+                <th>year</th>
+                <th>actor</th>
+                <th>genre</th>
+            </tr>
+            <tr>
+                <td>1</td>
+                <td>1</td>
+                <td>1</td>
+                <td>1</td>
+            </tr>
+            <tr>
+                <td>1</td>
+                <td>1</td>
+                <td>1</td>
+                <td>1</td>
+            </tr>
+            <tr>
+                <td>1</td>
+                <td>1</td>
+                <td>1</td>
+                <td>1</td>
+            </tr>
+            <tr>
+                <td>1</td>
+                <td>1</td>
+                <td>1</td>
+                <td>1</td>
+            </tr>
+        </table>
+    </div>
+
     <script>
-        let arr = [0, 0]
+        class Movie {
+            constructor(name, year, actor, genre) {
+                this.name = name;
+                this.year = year;
+                this.actor = actor;
+                this.genre = genre;
+            }
+        }
 
-        do {
-            arr.shift()
-            arr.push(parseInt(prompt("Enter number")))
-        } 
-        while (-99 != arr[1] && arr[0] != arr[1]);
+        const movies = [
+            new Movie("name1", 1000, "actor1", "genre1"),
+            new Movie("name2", 2000, "actor2", "genre2"),
+            new Movie("name3", 3000, "actor3", "genre3"),
+            new Movie("name4", 4000, "actor4", "genre4"),
+        ]
 
-        alert("done!")
+        // const matrix = document.createElement("p")
+
+        // mat_h3.innerText = "Matrix:"
+        // coords_h3.innerText = "Coordinates:"
+        // matrix.id = matrixID
+        // coords.id = coordsID
+
+        // document.body.appendChild(document.createElement("hr"))
+        // document.body.appendChild(mat_h3)
+        // document.body.appendChild(matrix)
+
+        function filterLaterYears() {
+            const year = document.getElementById("filterYear").value
+
+            console.log(movies.filter(movie => movie.year > year));
+        }
+
+
     </script>
 </body>
+
 </html>
