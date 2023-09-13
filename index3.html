@@ -11,13 +11,23 @@
         table {
             width: 100%;
         }
+
+        .center {
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+            width: 50%;
+        }
     </style>
 </head>
 
 <body>
     <hr>
     <div>
-        <label for="filterYear">Filter year: </label>
+        <label for="filterName">filter by name: </label>
+        <input type="text" id="filterName" oninput="showMovies(filterName())">
+        <br /><br />
+        <label for="filterYear">filter by >year: </label>
         <input type="number" id="filterYear" min="0" max="3000" oninput="showMovies(filterLaterYears())">
     </div>
     <hr>
@@ -40,11 +50,12 @@
 
     <script>
         class Movie {
-            constructor(name, year, actor, genre) {
+            constructor(name, year, actor, genre, image) {
                 this.name = name;
                 this.year = year;
                 this.actor = actor;
                 this.genre = genre;
+                this.image = image;
             }
 
             isValidMovie() {
@@ -60,10 +71,10 @@
         }
 
         const movies = [
-            new Movie("name1", 1000, "actor1", "genre1"),
-            new Movie("name2", 2000, "actor2", "genre2"),
-            new Movie("name3", 3000, "actor3", "genre3"),
-            new Movie("name4", 4000, "actor4", "genre4"),
+            new Movie(" Recruit Of New Worlds", 1000, "actor1", "genre1", "https://picsum.photos/id/1/400/250"),
+            new Movie(" Agent Of The Orbit", 2000, "actor2", "genre2", "https://picsum.photos/id/2/400/250"),
+            new Movie(" Captain From The Portal", 3500, "actor3", "genre3", "https://picsum.photos/id/3/400/250"),
+            new Movie(" Friends Of Honor", 4000, "actor4", "genre4", "https://picsum.photos/id/4/400/250"),
         ]
 
         function showMovies(movies) {
@@ -85,6 +96,7 @@
                     <th>year</th>
                     <th>actor</th>
                     <th>genre</th>
+                    <th>image</th>
                 </tr>`
 
             movies.forEach(movie => {
@@ -94,6 +106,7 @@
                     <td>${movie.year}</td>
                     <td>${movie.actor}</td>
                     <td>${movie.genre}</td>
+                    <td><img src="${movie.image}" class="center"></td>
                 </tr>`
             })
 
@@ -119,13 +132,17 @@
             }
         }
 
+        function filterName() {
+            const name = document.getElementById("filterName").value
+
+            return movies.filter(movie => movie.name.toLowerCase().includes(name.toLowerCase()))
+        }
+
         function filterLaterYears() {
             const year = document.getElementById("filterYear").value
 
             return movies.filter(movie => movie.year > year)
         }
-
-
     </script>
 </body>
 
