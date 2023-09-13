@@ -2,43 +2,40 @@
 
 <head>
     <title>Excercise - objects</title>
+    <style>
+        table,
+        td {
+            border: 1px solid black;
+        }
+
+        table {
+            width: 100%;
+        }
+    </style>
 </head>
 
 <body>
-    <input type="number" id="filterYear" min="0" max="3000" onclick="filterLaterYears()">
+    <hr>
     <div>
-        <table>
-            <tr>
-                <th>name</th>
-                <th>year</th>
-                <th>actor</th>
-                <th>genre</th>
-            </tr>
-            <tr>
-                <td>1</td>
-                <td>1</td>
-                <td>1</td>
-                <td>1</td>
-            </tr>
-            <tr>
-                <td>1</td>
-                <td>1</td>
-                <td>1</td>
-                <td>1</td>
-            </tr>
-            <tr>
-                <td>1</td>
-                <td>1</td>
-                <td>1</td>
-                <td>1</td>
-            </tr>
-            <tr>
-                <td>1</td>
-                <td>1</td>
-                <td>1</td>
-                <td>1</td>
-            </tr>
-        </table>
+        <label for="filterYear">Filter year: </label>
+        <input type="number" id="filterYear" min="0" max="3000" oninput="showMovies(filterLaterYears())">
+    </div>
+    <hr>
+    <div>
+        <label for="name">movie name: </label>
+        <input type="text" id="name">
+        <br /><br />
+        <label for="year">movie year: </label>
+        <input type="number" id="year" min="0" max="3000">
+        <br /><br />
+        <label for="actor">movie actor: </label>
+        <input type="text" id="actor">
+        <br /><br />
+        <label for="genre">movie genre: </label>
+        <input type="text" id="genre">
+        <br /><br />
+        <button onclick="addMovie(movies); showMovies(movies)">Add movie</button>
+        <hr>
     </div>
 
     <script>
@@ -49,6 +46,17 @@
                 this.actor = actor;
                 this.genre = genre;
             }
+
+            isValidMovie() {
+                if (0 == this.name.length ||
+                    isNaN(this.year) ||
+                    0 == this.actor.length ||
+                    0 == this.genre.length) {
+                    return false
+                }
+
+                return true
+            }
         }
 
         const movies = [
@@ -58,21 +66,63 @@
             new Movie("name4", 4000, "actor4", "genre4"),
         ]
 
-        // const matrix = document.createElement("p")
+        function showMovies(movies) {
+            // remove the previous table
+            const prevTable = document.getElementById("moviesDiv")
 
-        // mat_h3.innerText = "Matrix:"
-        // coords_h3.innerText = "Coordinates:"
-        // matrix.id = matrixID
-        // coords.id = coordsID
+            if (null != prevTable) {
+                document.body.removeChild(prevTable)
+            }
 
-        // document.body.appendChild(document.createElement("hr"))
-        // document.body.appendChild(mat_h3)
-        // document.body.appendChild(matrix)
+            // make a new table
+            const moviesDiv = document.createElement("div")
+            let table = `<table>
+                <caption>
+                    Movies list
+                </caption>
+                <tr>
+                    <th>name</th>
+                    <th>year</th>
+                    <th>actor</th>
+                    <th>genre</th>
+                </tr>`
+
+            movies.forEach(movie => {
+                table += `
+                <tr>
+                    <td><b>${movie.name}</b></td>
+                    <td>${movie.year}</td>
+                    <td>${movie.actor}</td>
+                    <td>${movie.genre}</td>
+                </tr>`
+            })
+
+            table += `</table>`
+
+            moviesDiv.innerHTML = table
+            moviesDiv.id = "moviesDiv"
+            document.body.appendChild(moviesDiv)
+        }
+
+        function addMovie(movies) {
+            const movie = new Movie(
+                document.getElementById("name").value,
+                parseInt(document.getElementById("year").value),
+                document.getElementById("actor").value,
+                document.getElementById("genre").value)
+
+            if (movie.isValidMovie()) {
+                movies.push(movie)
+            }
+            else {
+                alert("Please fill all the fields!")
+            }
+        }
 
         function filterLaterYears() {
             const year = document.getElementById("filterYear").value
 
-            console.log(movies.filter(movie => movie.year > year));
+            return movies.filter(movie => movie.year > year)
         }
 
 
